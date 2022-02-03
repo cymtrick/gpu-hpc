@@ -153,7 +153,10 @@ int main(int argc, char* argv[]) {
     if (argc > 2) gridGeoThreadBlock = atoi(argv[2]);
     if (argc > 3) operation = atoi(argv[3]);
 
-    std::cout << "Adding two vectors of " << n << " integer elements." << std::endl;
+    if(operation == 0) std::cout << "Adding two vectors of " << n << " integer elements." << std::endl;
+    if(operation == 1) std::cout << "Adding sub vectors of " << n << " integer elements." << std::endl;
+    if(operation == 2) std::cout << "Adding mul vectors of " << n << " integer elements." << std::endl;
+    if(operation == 3) std::cout << "Adding div vectors of " << n << " integer elements." << std::endl;
 
     // initialize the vectors.
     for(int i=0; i<n; i++) {
