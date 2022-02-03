@@ -124,18 +124,21 @@ void vectorOpsCuda(int n,int operation,int gridGeoThreadBlock, float* a, float* 
     if(operation == 3) std::cout << "vector-div (D2H):    \t\t" << duration_cast<microseconds>(t4 - t3).count() << "us" << std::endl;
 }
 
-void vectorAddSeq(int n, float* a, float* b, float* result) {
+
+void vectorOpsSeq(int n, float* a, float* b, float* result) {
     int i;
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
-    for (i=0; i<n; i++) {
-        result[i] = a[i]+b[i];
-    }
+    if(operation == 0) for (i=0; i<n; i++) { result[i] = a[i]+b[i]; }
+    if(operation == 1) for (i=0; i<n; i++) { result[i] = a[i]-b[i]; }
+    if(operation == 2) for (i=0; i<n; i++) { result[i] = a[i]*b[i]; }
+    if(operation == 3) for (i=0; i<n; i++) { result[i] = a[i]/b[i]; }
 
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
 
     std::cout << "vector-add (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    
 }
 
 int main(int argc, char* argv[]) {
@@ -158,7 +161,7 @@ int main(int argc, char* argv[]) {
         b[i] = i;
     }
 
-    vectorAddSeq(n,a, b, result_s);
+    vectorOpsSeq(n,operation, a, b, result_s);
 
     vectorOpsCuda(n, operation, gridGeoThreadBlock, a, b, result);
 
