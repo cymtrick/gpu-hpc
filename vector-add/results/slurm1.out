@@ -1,62 +1,62 @@
-dding two vectors of 655360 integer elements.
-vector-add (seq):               3182us
-vector-add (H2D):               1403us
-vector-add (kernel):            74us
-vector-add (D2H):               1462us
+Adding two vectors of 655360 integer elements.
+vector-add (seq):               3116us
+vector-add (H2D):               1397us
+vector-add (kernel):            67us
+vector-add (D2H):               2982us
 results OK!
 Adding two vectors of 256 integer elements.
-vector-add (seq):               9us
+vector-add (seq):               0us
 cuda error: invalid configuration argument
 Adding two vectors of 1024 integer elements.
-vector-add (seq):               5us
+vector-add (seq):               7us
 vector-add (H2D):               38us
 vector-add (kernel):            22us
 vector-add (D2H):               22us
 results OK!
 Adding two vectors of 65536 integer elements.
-vector-add (seq):               271us
-vector-add (H2D):               201us
-vector-add (kernel):            30us
-vector-add (D2H):               307us
+vector-add (seq):               318us
+vector-add (H2D):               215us
+vector-add (kernel):            37us
+vector-add (D2H):               326us
 results OK!
 Adding two vectors of 1000000 integer elements.
-/var/spool/slurm/slurmd/job8729304/slurm_script: line 12: 17540 Segmentation fault      ./vector-add 1000000
+/var/spool/slurm/slurmd/job8729307/slurm_script: line 12: 18725 Segmentation fault      ./vector-add 1000000
 Adding two vectors of 655360 integer elements.
-vector-add (seq):               1454us
-vector-add (H2D):               1422us
-vector-add (kernel):            67us
-vector-add (D2H):               3114us
-results OK!
-Adding two vectors of 655360 integer elements.
-vector-add (seq):               2639us
-vector-add (H2D):               1422us
-vector-add (kernel):            75us
-vector-add (D2H):               1486us
-results OK!
-Adding two vectors of 655360 integer elements.
-vector-add (seq):               2639us
-vector-add (H2D):               1449us
+vector-add (seq):               3323us
+vector-add (H2D):               1825us
 vector-add (kernel):            76us
-vector-add (D2H):               1471us
+vector-add (D2H):               4931us
 results OK!
 Adding two vectors of 655360 integer elements.
-vector-add (seq):               1940us
+vector-add (seq):               2631us
+vector-add (H2D):               1421us
+vector-add (kernel):            75us
+vector-add (D2H):               1490us
+results OK!
+Adding two vectors of 655360 integer elements.
+vector-add (seq):               1565us
+vector-add (H2D):               1438us
+vector-add (kernel):            69us
+vector-add (D2H):               2989us
+results OK!
+Adding two vectors of 655360 integer elements.
+vector-add (seq):               2663us
 cuda error: invalid configuration argument
-Adding sub vectors of 655360 integer elements.
-vector-add (seq):               1684us
-vector-sub (H2D):               1401us
-vector-sub (kernel):            73us
-vector-sub (D2H):               3031us
+Subtract two vectors of 655360 integer elements.
+vector-sub (seq):               3608us
+vector-sub (H2D):               1423us
+vector-sub (kernel):            68us
+vector-sub (D2H):               3025us
 results OK!
-Adding mul vectors of 655360 integer elements.
-vector-add (seq):               3602us
-vector-mul (H2D):               1419us
-vector-mul (kernel):            67us
-vector-mul (D2H):               3054us
+Multiply two vectors of 655360 integer elements.
+vector-mul (seq):               2929us
+vector-mul (H2D):               1422us
+vector-mul (kernel):            76us
+vector-mul (D2H):               1485us
 results OK!
-Adding div vectors of 655360 integer elements.
-vector-add (seq):               3937us
-vector-div (H2D):               1407us
+Divison two vectors of 655360 integer elements.
+vector-div (seq):               3174us
+vector-div (H2D):               1428us
 vector-div (kernel):            74us
-vector-div (D2H):               3047us
+vector-div (D2H):               3064us
 error in results! Element 0 is nan, but should be -nan
