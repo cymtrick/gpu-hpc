@@ -130,12 +130,18 @@ void vectorOpsSeq(int n, int operation, float* a, float* b, float* result) {
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
-    if(operation == 0) for (i=0; i<n; i++) { result[i] = a[i]+b[i]; } std::cout << "vector-add (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
-    if(operation == 1) for (i=0; i<n; i++) { result[i] = a[i]-b[i]; } std::cout << "vector-sub (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
-    if(operation == 2) for (i=0; i<n; i++) { result[i] = a[i]*b[i]; } std::cout << "vector-mul (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
-    if(operation == 3) for (i=0; i<n; i++) { result[i] = a[i]/b[i]; } std::cout << "vector-div (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    if(operation == 0) for (i=0; i<n; i++) { result[i] = a[i]+b[i]; } 
+    if(operation == 1) for (i=0; i<n; i++) { result[i] = a[i]-b[i]; } 
+    if(operation == 2) for (i=0; i<n; i++) { result[i] = a[i]*b[i]; } 
+    if(operation == 3) for (i=0; i<n; i++) { result[i] = a[i]/b[i]; } 
 
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
+
+    if(operation == 0)  std::cout << "vector-add (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    if(operation == 1)  std::cout << "vector-sub (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    if(operation == 2)  std::cout << "vector-mul (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    if(operation == 3)  std::cout << "vector-div (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+
 
     
     
