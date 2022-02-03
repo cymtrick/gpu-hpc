@@ -130,14 +130,14 @@ void vectorOpsSeq(int n, int operation, float* a, float* b, float* result) {
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
-    if(operation == 0) for (i=0; i<n; i++) { result[i] = a[i]+b[i]; }
-    if(operation == 1) for (i=0; i<n; i++) { result[i] = a[i]-b[i]; }
-    if(operation == 2) for (i=0; i<n; i++) { result[i] = a[i]*b[i]; }
-    if(operation == 3) for (i=0; i<n; i++) { result[i] = a[i]/b[i]; }
+    if(operation == 0) for (i=0; i<n; i++) { result[i] = a[i]+b[i]; } std::cout << "vector-add (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    if(operation == 1) for (i=0; i<n; i++) { result[i] = a[i]-b[i]; } std::cout << "vector-sub (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    if(operation == 2) for (i=0; i<n; i++) { result[i] = a[i]*b[i]; } std::cout << "vector-mul (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    if(operation == 3) for (i=0; i<n; i++) { result[i] = a[i]/b[i]; } std::cout << "vector-div (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
 
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
 
-    std::cout << "vector-add (seq):    \t\t" << duration_cast<microseconds>(t2 - t1).count() << "us" << std::endl;
+    
     
 }
 
@@ -154,9 +154,9 @@ int main(int argc, char* argv[]) {
     if (argc > 3) operation = atoi(argv[3]);
 
     if(operation == 0) std::cout << "Adding two vectors of " << n << " integer elements." << std::endl;
-    if(operation == 1) std::cout << "Adding sub vectors of " << n << " integer elements." << std::endl;
-    if(operation == 2) std::cout << "Adding mul vectors of " << n << " integer elements." << std::endl;
-    if(operation == 3) std::cout << "Adding div vectors of " << n << " integer elements." << std::endl;
+    if(operation == 1) std::cout << "Subtract two vectors of " << n << " integer elements." << std::endl;
+    if(operation == 2) std::cout << "Multiply two vectors of " << n << " integer elements." << std::endl;
+    if(operation == 3) std::cout << "Divison two vectors of " << n << " integer elements." << std::endl;
 
     // initialize the vectors.
     for(int i=0; i<n; i++) {
