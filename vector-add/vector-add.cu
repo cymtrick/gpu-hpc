@@ -125,7 +125,7 @@ void vectorOpsCuda(int n,int operation,int gridGeoThreadBlock, float* a, float* 
 }
 
 
-void vectorOpsSeq(int n, float* a, float* b, float* result) {
+void vectorOpsSeq(int n, int operation, float* a, float* b, float* result) {
     int i;
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
