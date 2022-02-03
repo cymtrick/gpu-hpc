@@ -147,8 +147,8 @@ int main(int argc, char* argv[]) {
     int gridGeoThreadBlock = 0;
     int operation = 0;
     if (argc > 1) n = atoi(argv[1]);
-    if (argc > 2) gridGeoThreadBlock = atoi(argv[2])
-    if (argc > 3) operation = atoi(argv[3])
+    if (argc > 2) gridGeoThreadBlock = atoi(argv[2]);
+    if (argc > 3) operation = atoi(argv[3]);
 
     std::cout << "Adding two vectors of " << n << " integer elements." << std::endl;
 
