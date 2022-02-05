@@ -25,32 +25,32 @@ static void checkCudaCall(cudaError_t result) {
 }
 
 
-__global__ void vectorTransformKernel(int height, int n  , float* A, float* B, float* Result) {
- unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
- unsigned j = blockIdx.y * blockDim.y + threadIdx.y;
- if(i < height && j < n) Result[j] = Result[j]+A[j]*B[j];
-
+__global__ void vectorTransformKernel(int n, float* A, float* B, float* Result) {
+// insert operation here
+int i = threadIdx.x + blockDim.x * blockIdx.x;
+for (j=0; j<5; j++) 
+    if(i<n) Result[i] = Result[i]+A[i]*B[i];
 }
 
 void vectorTransformCuda(int n, float* a, float* b, float* result) {
     int threadBlockSize = 512;
-    int height = 5;
+
     // allocate the vectors on the GPU
     float* deviceA = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceA, n*height*sizeof(float)));
+    checkCudaCall(cudaMalloc((void **) &deviceA, n * sizeof(float)));
     if (deviceA == NULL) {
         cout << "could not allocate memory!" << endl;
         return;
     }
     float* deviceB = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceB,n*height*sizeof(float)));
+    checkCudaCall(cudaMalloc((void **) &deviceB, n * sizeof(float)));
     if (deviceB == NULL) {
         checkCudaCall(cudaFree(deviceA));
         cout << "could not allocate memory!" << endl;
         return;
     }
     float* deviceResult = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceResult, n*height*sizeof(float)));
+    checkCudaCall(cudaMalloc((void **) &deviceResult, n * sizeof(float)));
     if (deviceResult == NULL) {
         checkCudaCall(cudaFree(deviceA));
         checkCudaCall(cudaFree(deviceB));
@@ -63,19 +63,14 @@ void vectorTransformCuda(int n, float* a, float* b, float* result) {
 
     // copy the original vectors to the GPU
     memoryTime.start();
-    checkCudaCall(cudaMemcpy(deviceA, a, n*height*sizeof(float), cudaMemcpyHostToDevice));
-    checkCudaCall(cudaMemcpy(deviceB, b, n*height*sizeof(float), cudaMemcpyHostToDevice));
+    checkCudaCall(cudaMemcpy(deviceA, a, n*sizeof(float), cudaMemcpyHostToDevice));
+    checkCudaCall(cudaMemcpy(deviceB, b, n*sizeof(float), cudaMemcpyHostToDevice));
     memoryTime.stop();
 
     // execute kernel
     kernelTime1.start();
-    dim3 grid(1,n/threadBlockSize);
-    dim3 block(height,threadBlockSize);
-
-    vectorTransformKernel<<<grid, block>>>(height,n,deviceA, deviceB, deviceResult);
-
+    vectorTransformKernel<<<n/threadBlockSize, threadBlockSize>>>(n, deviceA, deviceB, deviceResult);
     cudaDeviceSynchronize();
-    checkCudaCall(cudaGetLastError());
     kernelTime1.stop();
 
     // check whether the kernel invocation was successful
@@ -83,7 +78,7 @@ void vectorTransformCuda(int n, float* a, float* b, float* result) {
 
     // copy result back
     memoryTime.start();
-    checkCudaCall(cudaMemcpy(result, deviceResult, n*height*sizeof(float), cudaMemcpyDeviceToHost));
+    checkCudaCall(cudaMemcpy(result, deviceResult, n * sizeof(float), cudaMemcpyDeviceToHost));
     memoryTime.stop();
 
     checkCudaCall(cudaFree(deviceA));
@@ -94,7 +89,7 @@ void vectorTransformCuda(int n, float* a, float* b, float* result) {
     cout << "vector-transform (memory): \t\t" << memoryTime << endl;
 }
 
-int vectorTransformSeq(int n, float* a, float* b, float* result) {
+void vectorTransformSeq(int n, float* a, float* b, float* result) {
   int i,j; 
 
   timer sequentialTime = timer("Sequential");
@@ -134,7 +129,7 @@ int main(int argc, char* argv[]) {
     
     // verify the resuls
     for(int i=0; i<n; i++) {
-	  if (result[i]!=result_s[i]) {
+     if (result[i]!=result_s[i]) {
       if (fabs(result[i] - result_s[i]) >0.001)
         cout << "error in results! Element " << i << " is " << result[i] << ", but should be " << result_s[i] << endl; 
             exit(1);

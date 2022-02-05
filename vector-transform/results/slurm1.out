@@ -1,0 +1,20 @@
+Iteratively transform vector A with vector B of 655360 integer elements.
+vector-transform (sequential):            = 0.0121979 seconds
+vector-transform (kernel):                = 0.000181948 seconds
+vector-transform (memory):                = 0.00454235 seconds
+Iteratively transform vector A with vector B of 256 integer elements.
+vector-transform (sequential):            = 4.8524e-06 seconds
+vector-transform (kernel):                = 4.39862e-05 seconds
+vector-transform (memory):                = 0.000108161 seconds
+Iteratively transform vector A with vector B of 1024 integer elements.
+vector-transform (sequential):            = 2.07497e-05 seconds
+vector-transform (kernel):                = 2.98949e-05 seconds
+vector-transform (memory):                = 5.44342e-05 seconds
+Iteratively transform vector A with vector B of 65536 integer elements.
+vector-transform (sequential):            = 0.000646232 seconds
+vector-transform (kernel):                = 3.55423e-05 seconds
+vector-transform (memory):                = 0.000314282 seconds
+Iteratively transform vector A with vector B of 100000 integer elements.
+vector-transform (sequential):            = 0.00104841 seconds
+vector-transform (kernel):                = 5.21176e-05 seconds
+vector-transform (memory):                = 0.000452702 seconds
