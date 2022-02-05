@@ -116,8 +116,11 @@ int DecryptSeq (int n, char* data_in, char* data_out)
 
 
 int EncryptCuda (int n, char* data_in, char* data_out) {
-    int threadBlockSize = 512;
-
+    int threadBlockSize = 512; 
+    int nStreams = 8;
+    int streamSize = n/nStreams;
+    int streamBytes = streamSize * sizeof(float);
+    int bytes = n * sizeof(float);
     // allocate the vectors on the GPU
     char* deviceDataIn = NULL;
     checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char)));
@@ -133,10 +136,17 @@ int EncryptCuda (int n, char* data_in, char* data_out) {
         return -1;
     }
 
+    cudaEvent_t startEvent, stopEvent, dummyEvent;
+    cudaStream_t stream[nStreams];
+    checkCudaCall( cudaEventCreate(&startEvent) );
+    checkCudaCall( cudaEventCreate(&stopEvent) );
+    for (int i = 0; i < nStreams; ++i)
+      checkCudaCall( cudaStreamCreate(&stream[i]) );
     timer kernelTime1 = timer("kernelTime");
     timer memoryTime = timer("memoryTime");
-
+    checkCudaCall( cudaEventRecord(startEvent,0) );
     // copy the original vectors to the GPU
+    
     memoryTime.start();
     checkCudaCall(cudaMemcpy(deviceDataIn, data_in, n*sizeof(char), cudaMemcpyHostToDevice));
     memoryTime.stop();
