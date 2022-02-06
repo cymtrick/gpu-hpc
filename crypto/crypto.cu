@@ -139,7 +139,7 @@ int EncryptCuda (int n, int key, char* data_in, char* data_out) {
 
     // copy the original vectors to the GPU
     memoryTime.start();
-    checkCudaCall(cudaMemcpy(deviceDataIn, data_in, n+1*sizeof(char *), cudaMemcpyHostToDevice));
+    checkCudaCall(cudaMemcpy(deviceDataIn, data_in, n*sizeof(char *), cudaMemcpyHostToDevice));
     memoryTime.stop();
  
     // execute kernel
@@ -153,7 +153,7 @@ int EncryptCuda (int n, int key, char* data_in, char* data_out) {
 
     // copy result back
     memoryTime.start();
-    checkCudaCall(cudaMemcpy(data_out, deviceDataOut, n+1 * sizeof(char *), cudaMemcpyDeviceToHost));
+    checkCudaCall(cudaMemcpy(data_out, deviceDataOut, n * sizeof(char *), cudaMemcpyDeviceToHost));
     memoryTime.stop();
 
 
@@ -172,13 +172,13 @@ int DecryptCuda (int n,  int key, char* data_in, char* data_out) {
 
     // allocate the vectors on the GPU
     char* deviceDataIn = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceDataIn, n+1 * sizeof(char *)));
+    checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char *)));
     if (deviceDataIn == NULL) {
         cout << "could not allocate memory!" << endl;
         return -1;
     }
     char* deviceDataOut = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceDataOut, n+1* sizeof(char *)));
+    checkCudaCall(cudaMalloc((void **) &deviceDataOut, n* sizeof(char *)));
     if (deviceDataOut == NULL) {
         checkCudaCall(cudaFree(deviceDataIn));
         cout << "could not allocate memory!" << endl;
