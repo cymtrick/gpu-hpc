@@ -124,13 +124,13 @@ int EncryptSeq (int n, int keylen, char* data_key, char* data_in, char* data_out
   sequentialTime.start();
   for (i=0; i<n; i++) { 
     int x = i % (keylen-1);
-    if(deviceDataIn[i] < 65 || deviceDataIn[i] > 122 || (deviceDataIn[i] > 90&& deviceDataIn[i] <97) )
-        deviceDataOut[i] = deviceDataIn[i];
+    if(data_in[i] < 65 || data_in[i] > 122 || (data_in[i] > 90 && data_in[i] <97) )
+        data_out[i] = data_in[i];
       else
-        if(deviceDataIn[i] + deviceDataKey[x] - 96 > 90)
-          deviceDataOut[i] = char(deviceDataIn[i] + deviceDataKey[x]-96-26);
+        if(data_in[i] + data_key[x]  > 90)
+          data_out[i] = char(data_in[i] + data_key[x]+96+26);
         else
-          deviceDataOut[i] = char(deviceDataIn[i] + deviceDataKey[x]-96);
+          data_out[i] = char(data_in[i] + data_key[x]+96);
     
     }
   sequentialTime.stop();
@@ -141,14 +141,21 @@ int EncryptSeq (int n, int keylen, char* data_key, char* data_in, char* data_out
   return 0; 
 }
 
-int DecryptSeq (int n,int keylen, char* data_in, char* data_out)
+int DecryptSeq (int n,int keylen, char* data_key,char* data_in, char* data_out)
 {
   int i;
   timer sequentialTime = timer("Sequential decryption");
 
   sequentialTime.start();
   for (i=0; i<n; i++) {
-     data_out[i]=data_in[i]; 
+         int x = i % (keylen-1);
+    if(data_in[i] < 65 || data_in[i] > 122 || (data_in[i] > 90&& data_in[i] <97) )
+        data_out[i] = data_in[i];
+      else
+        if(data_in[i] + data_key[x] + 96 > 90)
+          data_out[i] = char(data_in[i] + data_key[x]-96-26);
+        else
+          data_out[i] = char(data_in[i] + data_key[x]-96);
      
      }
   sequentialTime.stop();
@@ -172,6 +179,13 @@ int EncryptCuda (int n, int keylen,char* data_key,char* data_in, char* data_out)
     }
     char* deviceDataOut = NULL;
     checkCudaCall(cudaMalloc((void **) &deviceDataOut, n * sizeof(char)));
+    if (deviceDataOut == NULL) {
+        checkCudaCall(cudaFree(deviceDataIn));
+        cout << "could not allocate memory!" << endl;
+        return -1;
+    }
+    char* deviceDataKey = NULL;
+    checkCudaCall(cudaMalloc((void **) &deviceDataKey, keylen*sizeof(char)));
     if (deviceDataOut == NULL) {
         checkCudaCall(cudaFree(deviceDataIn));
         cout << "could not allocate memory!" << endl;
@@ -223,6 +237,13 @@ int DecryptCuda (int n,int keylen,char* data_key, char* data_in, char* data_out)
     }
     char* deviceDataOut = NULL;
     checkCudaCall(cudaMalloc((void **) &deviceDataOut, n * sizeof(char)));
+    if (deviceDataOut == NULL) {
+        checkCudaCall(cudaFree(deviceDataIn));
+        cout << "could not allocate memory!" << endl;
+        return -1;
+    }
+    char* deviceDataKey = NULL;
+    checkCudaCall(cudaMalloc((void **) &deviceDataKey, keylen*sizeof(char)));
     if (deviceDataOut == NULL) {
         checkCudaCall(cudaFree(deviceDataIn));
         cout << "could not allocate memory!" << endl;
