@@ -29,26 +29,26 @@ __global__ void encryptKernel(int n, int keylen, char* deviceDataKey,char* devic
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int x = index % (keylen-1);
     if(index<n) 
-      if(deviceDataIn[i] < 65 || deviceDataIn[i] > 122 || (deviceDataIn[i] > 90&& deviceDataIn[i] <97) )
+      if(deviceDataIn[index] < 65 || deviceDataIn[index] > 122 || (deviceDataIn[index] > 90&& deviceDataIn[index] <97) )
         deviceDataOut[index] = deviceDataIn[index];
       else
-        if(deviceDataIn[i]+deviceDataKey[x]-96 > 90)
-          deviceDataOut[index] = char(deviceDataIn[index]+deviceDataKey[x]-96-26);
+        if(deviceDataIn[index] + deviceDataKey[x] - 96 > 90)
+          deviceDataOut[index] = char(deviceDataIn[index] + deviceDataKey[x]-96-26);
         else
-          deviceDataOut[index] = char(deviceDataIn[index]+deviceDataKey[x]-96);
+          deviceDataOut[index] = char(deviceDataIn[index] + deviceDataKey[x]-96);
 }
 
 __global__ void decryptKernel(int n, int keylen, char* deviceDataKey,char* deviceDataIn, char* deviceDataOut) {
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int x = index % (keylen-1);
     if(index<n) 
-      if(deviceDataIn[i] < 65 || deviceDataIn[i] > 122 || (deviceDataIn[i] > 90&& deviceDataIn[i] <97) )
+      if(deviceDataIn[index] < 65 || deviceDataIn[index] > 122 || (deviceDataIn[index] > 90&& deviceDataIn[index] <97) )
         deviceDataOut[index] = deviceDataIn[index];
       else
-        if(deviceDataIn[i] - deviceDataKey[x]+96 < 65)
-          deviceDataOut[index] = char(deviceDataIn[index]+deviceDataKey[x]+96+26);
+        if(deviceDataIn[index] - deviceDataKey[x] + 96 < 65)
+          deviceDataOut[index] = char(deviceDataIn[index] + deviceDataKey[x]+96+26);
         else
-          deviceDataOut[index] = char(deviceDataIn[index]+deviceDataKey[x]+96);
+          deviceDataOut[index] = char(deviceDataIn[index] + deviceDataKey[x]+96);
 }
 
 int fileSize() {
@@ -122,7 +122,17 @@ int EncryptSeq (int n, int keylen, char* data_key, char* data_in, char* data_out
   timer sequentialTime = timer("Sequential encryption");
   
   sequentialTime.start();
-  for (i=0; i<n; i++) { data_out[i]=data_in[i]; }
+  for (i=0; i<n; i++) { 
+    int x = i % (keylen-1);
+    if(deviceDataIn[i] < 65 || deviceDataIn[i] > 122 || (deviceDataIn[i] > 90&& deviceDataIn[i] <97) )
+        deviceDataOut[i] = deviceDataIn[i];
+      else
+        if(deviceDataIn[i] + deviceDataKey[x] - 96 > 90)
+          deviceDataOut[i] = char(deviceDataIn[i] + deviceDataKey[x]-96-26);
+        else
+          deviceDataOut[i] = char(deviceDataIn[i] + deviceDataKey[x]-96);
+    
+    }
   sequentialTime.stop();
 
   cout << fixed << setprecision(6);
@@ -137,7 +147,10 @@ int DecryptSeq (int n,int keylen, char* data_in, char* data_out)
   timer sequentialTime = timer("Sequential decryption");
 
   sequentialTime.start();
-  for (i=0; i<n; i++) { data_out[i]=data_in[i]; }
+  for (i=0; i<n; i++) {
+     data_out[i]=data_in[i]; 
+     
+     }
   sequentialTime.stop();
 
   cout << fixed << setprecision(6);
