@@ -1,16 +1,46 @@
-cat slurm-8732495.out
 The entire file content is in memory.
 Encrypting a file of 2311 characters.
-Encryption (sequential):                0.000003 seconds.
+Encryption (sequential):                0.000009 seconds.
 The entire file content was written to file.
-Encrypt (kernel):               0.000041 seconds.
-Encrypt (memory):               0.000078 seconds.
+Encrypt (kernel):               0.000042 seconds.
+Encrypt (memory):               0.000088 seconds.
 The entire file content was written to file.
 The entire file content is in memory.
 The entire file content is in memory.
 Decrypting a file of 2311characters
-Decryption (sequential):                0.000007 seconds.
+Decryption (sequential):                0.000004 seconds.
 The entire file content was written to file.
-Decrypt (kernel):               0.000024 seconds.
-Decrypt (memory):               0.000056 seconds.
+Decrypt (kernel):               0.000034 seconds.
+Decrypt (memory):               0.000066 seconds.
+The entire file content was written to file.
+The entire file content is in memory.
+The entire file content is in memory.
+Encrypting a file of 67802 characters.
+Encryption (sequential):                0.000316 seconds.
+The entire file content was written to file.
+Encrypt (kernel):               0.000068 seconds.
+Encrypt (memory):               0.000545 seconds.
+The entire file content was written to file.
+The entire file content is in memory.
+The entire file content is in memory.
+Decrypting a file of 67802characters
+Decryption (sequential):                0.000271 seconds.
+The entire file content was written to file.
+Decrypt (kernel):               0.000059 seconds.
+Decrypt (memory):               0.000206 seconds.
+The entire file content was written to file.
+The entire file content is in memory.
+Encrypting a file of 341350 characters.
+Encryption (sequential):                0.001335 seconds.
+The entire file content was written to file.
+Encrypt (kernel):               0.000093 seconds.
+Encrypt (memory):               0.001131 seconds.
+The entire file content was written to file.
+The entire file content is in memory.
+The entire file content is in memory.
+Decrypting a file of 341350characters
+Decryption (sequential):                0.000643 seconds.
+The entire file content was written to file.
+Decrypt (kernel):               0.000077 seconds.
+Decrypt (memory):               0.000459 seconds.
 The entire file content was written to file.

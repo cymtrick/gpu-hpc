@@ -6,3 +6,5 @@
 #SBATCH --mem=100000M
 
 ./crypto
+./crypto 1
+./crypto 2

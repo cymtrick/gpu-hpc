@@ -35,10 +35,13 @@ __global__ void decryptKernel(int n, int key,char* deviceDataIn, char* deviceDat
     if(index<=n) deviceDataOut[index] = deviceDataIn[index] - key;
 }
 
-int fileSize() {
+int fileSize(int f) {
   int size; 
+  string filename = "original.data";
+  if(f==1) filename ="original1.data";
+  if(f==2) filename = "original2.data";
+  ifstream file (filename, ios::in|ios::binary|ios::ate);
 
-  ifstream file ("original.data", ios::in|ios::binary|ios::ate);
   if (file.is_open())
   {
     size = file.tellg();
@@ -117,17 +120,17 @@ int DecryptSeq (int n, int key, char* data_in, char* data_out)
 
 
 int EncryptCuda (int n, int key, char* data_in, char* data_out) {
-    int threadBlockSize = 512;
+    int threadBlockSize = 1024;
 
     // allocate the vectors on the GPU
     char* deviceDataIn = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char *)));
+    checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char)));
     if (deviceDataIn == NULL) {
         cout << "could not allocate memory!" << endl;
         return -1;
     }
     char* deviceDataOut = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceDataOut, n * sizeof(char *)));
+    checkCudaCall(cudaMalloc((void **) &deviceDataOut, n * sizeof(char)));
     if (deviceDataOut == NULL) {
         checkCudaCall(cudaFree(deviceDataIn));
         cout << "could not allocate memory!" << endl;
@@ -139,7 +142,7 @@ int EncryptCuda (int n, int key, char* data_in, char* data_out) {
 
     // copy the original vectors to the GPU
     memoryTime.start();
-    checkCudaCall(cudaMemcpy(deviceDataIn, data_in, n*sizeof(char *), cudaMemcpyHostToDevice));
+    checkCudaCall(cudaMemcpy(deviceDataIn, data_in, n*sizeof(char ), cudaMemcpyHostToDevice));
     memoryTime.stop();
     // execute kernel
     kernelTime1.start();
@@ -152,7 +155,7 @@ int EncryptCuda (int n, int key, char* data_in, char* data_out) {
 
     // copy result back
     memoryTime.start();
-    checkCudaCall(cudaMemcpy(data_out, deviceDataOut, n * sizeof(char *), cudaMemcpyDeviceToHost));
+    checkCudaCall(cudaMemcpy(data_out, deviceDataOut, n * sizeof(char ), cudaMemcpyDeviceToHost));
     memoryTime.stop();
 
 
@@ -167,17 +170,17 @@ int EncryptCuda (int n, int key, char* data_in, char* data_out) {
 }
 
 int DecryptCuda (int n,  int key, char* data_in, char* data_out) {
-    int threadBlockSize = 512;
+    int threadBlockSize = 1024;
 
     // allocate the vectors on the GPU
     char* deviceDataIn = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char *)));
+    checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char )));
     if (deviceDataIn == NULL) {
         cout << "could not allocate memory!" << endl;
         return -1;
     }
     char* deviceDataOut = NULL;
-    checkCudaCall(cudaMalloc((void **) &deviceDataOut, n* sizeof(char *)));
+    checkCudaCall(cudaMalloc((void **) &deviceDataOut, n* sizeof(char )));
     if (deviceDataOut == NULL) {
         checkCudaCall(cudaFree(deviceDataIn));
         cout << "could not allocate memory!" << endl;
@@ -189,7 +192,7 @@ int DecryptCuda (int n,  int key, char* data_in, char* data_out) {
 
     // copy the original vectors to the GPU
     memoryTime.start();
-    checkCudaCall(cudaMemcpy(deviceDataIn, data_in, n*sizeof(char *), cudaMemcpyHostToDevice));
+    checkCudaCall(cudaMemcpy(deviceDataIn, data_in, n*sizeof(char ), cudaMemcpyHostToDevice));
     memoryTime.stop();
     
     // execute kernel
@@ -203,7 +206,7 @@ int DecryptCuda (int n,  int key, char* data_in, char* data_out) {
 
     // copy result back
     memoryTime.start();
-    checkCudaCall(cudaMemcpy(data_out, deviceDataOut, n * sizeof(char *), cudaMemcpyDeviceToHost));
+    checkCudaCall(cudaMemcpy(data_out, deviceDataOut, n * sizeof(char ), cudaMemcpyDeviceToHost));
     memoryTime.stop();
 
     checkCudaCall(cudaFree(deviceDataIn));
@@ -219,7 +222,10 @@ int DecryptCuda (int n,  int key, char* data_in, char* data_out) {
 int main(int argc, char* argv[]) {
     int n;
     int key = 1;
-    n = fileSize();
+    
+    int f;
+    if (argc > 1) f = atoi(argv[1]);
+    n = fileSize(f);
     if (n == -1) {
 	cout << "File not found! Exiting ... " << endl; 
 	exit(0);
@@ -229,7 +235,10 @@ int main(int argc, char* argv[]) {
     char* data_out = new char[n];    
     char* data_in_cuda = new char[n];   
     char* data_out_cuda = new char[n];  
-    readData("original.data", data_in); 
+     
+    if(f==1) readData("original1.data", data_in); 
+    if(f==2) readData("original2.data", data_in); 
+    else readData("original.data", data_in);
 
     cout << "Encrypting a file of " << n << " characters." << endl;
 
