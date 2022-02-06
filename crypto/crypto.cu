@@ -117,7 +117,7 @@ int DecryptSeq (int n, int key, char* data_in, char* data_out)
 
 
 int EncryptCuda (int n, int key, char* data_in, char* data_out) {
-    int threadBlockSize = 1024;
+    int threadBlockSize = 512;
 
     // allocate the vectors on the GPU
     char* deviceDataIn = NULL;
@@ -167,7 +167,7 @@ int EncryptCuda (int n, int key, char* data_in, char* data_out) {
 }
 
 int DecryptCuda (int n,  int key, char* data_in, char* data_out) {
-    int threadBlockSize = 1024;
+    int threadBlockSize = 512;
 
     // allocate the vectors on the GPU
     char* deviceDataIn = NULL;
