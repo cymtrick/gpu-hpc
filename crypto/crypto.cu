@@ -27,12 +27,12 @@ static void checkCudaCall(cudaError_t result) {
 
 __global__ void encryptKernel(int n, int key, char* deviceDataIn, char* deviceDataOut) {
     unsigned index = blockIdx.x * blockDim.x + threadIdx.x;
-    if(i<n)deviceDataOut[index] = deviceDataIn[index] + key;
+    if(index<n)deviceDataOut[index] = deviceDataIn[index] + key;
 }
 
 __global__ void decryptKernel(int n, int key,char* deviceDataIn, char* deviceDataOut) {
     unsigned index = blockIdx.x * blockDim.x + threadIdx.x;
-    if(i<n)deviceDataOut[index] = deviceDataIn[index] - key;
+    if(index<n)deviceDataOut[index] = deviceDataIn[index] - key;
 }
 
 int fileSize() {
@@ -51,21 +51,6 @@ int fileSize() {
   return size; 
 }
 
-int fileSize() {
-  int size; 
-
-  ifstream file (".data", ios::in|ios::binary|ios::ate);
-  if (file.is_open())
-  {
-    size = file.tellg();
-    file.close();
-  }
-  else {
-    cout << "Unable to open file";
-    size = -1; 
-  }
-  return size; 
-}
 
 int readData(char *fileName, char *data) {
 
@@ -242,6 +227,7 @@ int main(int argc, char* argv[]) {
 
     char* data_in = new char[n];
     char* data_out = new char[n];    
+    char* data_in_cuda = new char[n];   
     readData("original.data", data_in); 
 
     cout << "Encrypting a file of " << n << " characters." << endl;
