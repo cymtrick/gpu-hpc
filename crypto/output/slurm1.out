@@ -1,0 +1,19 @@
+The entire file content is in memory.
+The entire file content is in memory.
+Encrypting a file of 4986 characters.
+Keysize 2 characters.
+Encryption (sequential):                0.000063 seconds.
+The entire file content was written to file.
+Encrypt (kernel):               0.000056 seconds.
+Encrypt (memory):               0.000166 seconds.
+The entire file content was written to file.
+The entire file content is in memory.
+Decrypting a file of 4986characters
+Decryption (sequential):                0.000041 seconds.
+The entire file content was written to file.
+Decrypt (kernel):               0.000059 seconds.
+Decrypt (memory):               0.000144 seconds.
+The entire file content was written to file.
+lcur0214@login4:~/HPCGPU/crypto$ diff cuda.data recovered.data
+lcur0214@login4:~/HPCGPU/crypto$ diff sequential.data sequential_decrypted.data
+Binary files sequential.data and sequential_decrypted.data differ
