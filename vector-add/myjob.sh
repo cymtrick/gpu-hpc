@@ -9,7 +9,7 @@
 ./vector-add 256
 ./vector-add 1024
 ./vector-add 65536
-./vector-add 1000000
+./vector-add 1000448
 
 ./vector-add 655360 128
 ./vector-add 655360 256
