@@ -1,0 +1,5 @@
+convolution sequential took              1329.030 ms
+convolution_kernel_naive took            8.468 ms
+TEST PASSED!
+convolution_kernel_shared_mem took               9.577 ms
+TEST PASSED!
