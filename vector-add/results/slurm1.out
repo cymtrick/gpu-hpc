@@ -6,18 +6,21 @@ vector-add (D2H):               2982us
 results OK!
 Adding two vectors of 256 integer elements.
 vector-add (seq):               0us
-cuda error: invalid configuration argument
+vector-add (H2D):               61us
+vector-add (kernel):            39us
+vector-add (D2H):               26us
+results OK!
 Adding two vectors of 1024 integer elements.
 vector-add (seq):               7us
 vector-add (H2D):               38us
 vector-add (kernel):            22us
 vector-add (D2H):               22us
 results OK!
-Adding two vectors of 65536 integer elements.
-vector-add (seq):               318us
-vector-add (H2D):               215us
-vector-add (kernel):            37us
-vector-add (D2H):               326us
+Adding two vectors of 655360 integer elements.
+vector-add (seq):               1891us
+vector-add (H2D):               1796us
+vector-add (kernel):            70us
+vector-add (D2H):               5254us
 results OK!
 Adding two vectors of 1000000 integer elements.
 /var/spool/slurm/slurmd/job8729307/slurm_script: line 12: 18725 Segmentation fault      ./vector-add 1000000
