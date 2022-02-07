@@ -63,26 +63,42 @@ __global__ void convolution_kernel_naive(float *output, float *input, float *fil
 
 
 __global__ void convolution_kernel(float *output, float *input, float *filter) {
+    int ty = threadIdx.y;
+    int tx = threadIdx.x;
+    int by = blockIdx.y * block_size_y;
+    int bx = blockIdx.x * block_size_x;
+    int y = by+ty;
+    int x = bx+tx;
     //declare shared memory for this thread block
+    __shared__ float sh_input[block_size_y+border_height][block_size_x+border_width];
     //the area reserved is equal to the thread block size plus
     //the size of the border needed for the computation
 
     //Write a for loop that loads all values needed by this thread block
     //from global memory (input) and stores it into shared memory (sh_input)
     //that is local to this thread block
-    //for ( ... ) {
-        //for ( ... ) {
-            //...
-        //}
-    //}
+    for (int y_i = 0; y_i < (block_size_y+border_height); y_i++) {
+        for (int x_i = 0; x_i < (block_size_x+border_width); x_i++) {
+            sh_input[y_i][x_i] = input[(y_i+by)*input_width+x_i+bx];
+        }
+    }
 
     //synchronize to make all writes visible to all threads within the thread block
+    __syncthreads();
     
-    //compute using shared memory
+    //thread-local register to hold local sum
+    float sum = 0.0f;
     
-    //store result in the global memory 
+    //for each filter weight
+    for (int i=0; i < filter_height; i++) {
+        for (int j=0; j < filter_width; j++) {
+            sum += sh_input[ty+i][tx+j] * filter[i*filter_width+j];
+        }
+    }
 
     //store result to global memory
+    output[y*image_width+x] = sum;
+
 }
 
 int main() {
