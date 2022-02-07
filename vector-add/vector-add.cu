@@ -148,11 +148,11 @@ void vectorOpsSeq(int n, int operation, float* a, float* b, float* result) {
 }
 
 int main(int argc, char* argv[]) {
-    int n = 655360;
-    float* a = new float[n];
-    float* b = new float[n];
-    float* result = new float[n];
-    float* result_s = new float[n];
+    long int n = 655360;;
+    float* a = (float*)malloc(n * sizeof(float));;
+    float* b = (float*)malloc(n * sizeof(float));;
+    float* result = (float*)malloc(n * sizeof(float));;
+    float* result_s = (float*)malloc(n * sizeof(float));;
     int gridGeoThreadBlock = 0;
     int operation = 0;
     if (argc > 1) n = atoi(argv[1]);
@@ -162,10 +162,10 @@ int main(int argc, char* argv[]) {
     if(operation == 0) std::cout << "Adding two vectors of " << n << " integer elements." << std::endl;
     if(operation == 1) std::cout << "Subtract two vectors of " << n << " integer elements." << std::endl;
     if(operation == 2) std::cout << "Multiply two vectors of " << n << " integer elements." << std::endl;
-    if(operation == 3) std::cout << "Divison two vectors of " << n << " integer elements." << std::endl;
+    if(operation == 3) std::cout << "Divison two vectors of " << n << " integer elements." << std::endl; 
 
     // initialize the vectors.
-    for(int i=0; i<n; i++) {
+    for(long int i=0; i<n; i++) {
         a[i] = i;
         b[i] = i;
     }
