@@ -8,6 +8,9 @@ all: crypto
 crypto: timer.o crypto.o
 	$(NVCC) $(CUFLAGS) -o crypto timer.o crypto.o
 
+crypto-large-key: timer.o crypto_largeKey.o
+	$(NVCC) $(CUFLAGS) -o crypto_largeKey timer.o crypto_largeKey.o
+
 clean:
 	rm -f *.o crypto
 
