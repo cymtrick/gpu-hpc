@@ -148,11 +148,11 @@ void vectorOpsSeq(int n, int operation, float* a, float* b, float* result) {
 }
 
 int main(int argc, char* argv[]) {
-    long int n = 655360;;
-    float* a = (float*)malloc(n * sizeof(float));;
-    float* b = (float*)malloc(n * sizeof(float));;
-    float* result = (float*)malloc(n * sizeof(float));;
-    float* result_s = (float*)malloc(n * sizeof(float));;
+    long int n = 655360;
+    float* a = (float*)malloc(n * sizeof(float));
+    float* b = (float*)malloc(n * sizeof(float));
+    float* result = (float*)malloc(n * sizeof(float));
+    float* result_s = (float*)malloc(n * sizeof(float));
     int gridGeoThreadBlock = 0;
     int operation = 0;
     if (argc > 1) n = atoi(argv[1]);
