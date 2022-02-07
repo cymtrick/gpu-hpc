@@ -26,26 +26,26 @@ static void checkCudaCall(cudaError_t result) {
 
 __global__ void vectorAddKernel(int n,float* A, float* B, float* Result) {
     // insert operation here
-        int i = threadIdx.x + blockDim.x * blockIdx.x;
-        if (i<n)  Result[i]= A[i] + B[i];
+    int i = threadIdx.x + blockDim.x * blockIdx.x;
+    if (i<n)  Result[i]= A[i] + B[i];
 }
 
 __global__ void vectorSubKernel(int n,float* A, float* B, float* Result) {
     // insert operation here
-        int i = threadIdx.x + blockDim.x * blockIdx.x;
-        if (i<n)  Result[i]= A[i] - B[i];
+    int i = threadIdx.x + blockDim.x * blockIdx.x;
+    if (i<n)  Result[i]= A[i] - B[i];
 }
 
 __global__ void vectorMulKernel(int n,float* A, float* B, float* Result) {
     // insert operation here
-        int i = threadIdx.x + blockDim.x * blockIdx.x;
-        if (i<n)  Result[i]= A[i] * B[i];
+    int i = threadIdx.x + blockDim.x * blockIdx.x;
+    if (i<n)  Result[i]= A[i] * B[i];
 }
 
 __global__ void vectorDivKernel(int n,float* A, float* B, float* Result) {
     // insert operation here
-        int i = threadIdx.x + blockDim.x * blockIdx.x;
-        if (i<n)  Result[i]= A[i] / B[i];
+    int i = threadIdx.x + blockDim.x * blockIdx.x;
+    if (i<n)  Result[i]= A[i] / B[i];
 }
 
 
@@ -148,14 +148,14 @@ void vectorOpsSeq(int n, int operation, float* a, float* b, float* result) {
 }
 
 int main(int argc, char* argv[]) {
-    long int n = 655360;
+    int n = 655360;
+    if (argc > 1) n = atoi(argv[1]);
     float* a = (float*)malloc(n * sizeof(float));
     float* b = (float*)malloc(n * sizeof(float));
     float* result = (float*)malloc(n * sizeof(float));
     float* result_s = (float*)malloc(n * sizeof(float));
     int gridGeoThreadBlock = 0;
     int operation = 0;
-    if (argc > 1) n = atoi(argv[1]);
     if (argc > 2) gridGeoThreadBlock = atoi(argv[2]);
     if (argc > 3) operation = atoi(argv[3]);
 
@@ -176,7 +176,7 @@ int main(int argc, char* argv[]) {
 
     // verify the resuls
     for(int i=0; i<n; i++) {
-        if (result[i]!=result_s[i]) {
+        if (result[i] != result_s[i]) {
             std::cout << "error in results! Element " << i << " is " << result[i] << ", but should be " << result_s[i] << std::endl;
             exit(1);
         }
@@ -187,6 +187,7 @@ int main(int argc, char* argv[]) {
     delete[] a;
     delete[] b;
     delete[] result;
+    delete[] result_s;
 
     return 0;
 }
